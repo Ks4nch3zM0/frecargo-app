@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{% if shipment %}{% url 'shipment_detail' shipment.pk %}{% else %}{% url 'shipment_list' %}{% endif %}">← Volver a envíos</a>
+<div class="page-heading"><div><div class="eyebrow">OPERACIÓN</div><h1>{{ title }}</h1><p>Direcciones completas y datos de contacto para una entrega clara.</p></div></div>
+{% if not has_customers %}<div class="notice">Primero <a href="{% url 'customer_create' %}">registra un cliente</a> para asociar el envío.</div>{% endif %}
+<section class="panel form-panel"><form method="post">{% csrf_token %}<div class="form-grid">{% include 'partials/form_fields.html' %}</div><div class="form-actions"><button type="submit" class="button">Guardar envío</button><a href="{% if shipment %}{% url 'shipment_detail' shipment.pk %}{% else %}{% url 'shipment_list' %}{% endif %}" class="button secondary">Cancelar</a></div></form></section>
+{% endblock %}

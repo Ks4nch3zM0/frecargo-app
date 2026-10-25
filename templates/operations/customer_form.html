@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'customer_list' %}">← Volver a clientes</a><div class="page-heading"><div><div class="eyebrow">DIRECTORIO</div><h1>{{ title }}</h1><p>La dirección de recogida sirve como referencia. Cada envío conserva su propia dirección.</p></div></div><section class="panel form-panel"><form method="post">{% csrf_token %}<div class="form-grid">{% include 'partials/form_fields.html' %}</div><div class="form-actions"><button type="submit" class="button">Guardar cliente</button><a href="{% url 'customer_list' %}" class="button secondary">Cancelar</a></div></form></section>
+{% endblock %}

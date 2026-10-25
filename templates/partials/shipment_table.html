@@ -1,0 +1,12 @@
+{% if shipments %}
+<div class="table-wrap"><table>
+  <thead><tr><th>Guía / cliente</th><th>Entrega</th><th>Mensajero</th><th>Estado</th><th><span class="sr-only">Abrir envío</span></th></tr></thead>
+  <tbody>{% for shipment in shipments %}<tr>
+    <td><a class="guide-link" href="{% url 'shipment_detail' shipment.pk %}">{{ shipment.tracking_code }}</a><small>{{ shipment.customer.name }}</small></td>
+    <td><strong>{{ shipment.recipient_name }}</strong><small>{{ shipment.city }}{% if shipment.neighborhood %} · {{ shipment.neighborhood }}{% endif %}</small></td>
+    <td>{{ shipment.courier.display_name|default:"Sin asignar" }}</td>
+    <td><span class="status status-{{ shipment.status }}">{{ shipment.get_status_display }}</span></td>
+    <td><a class="open-link" href="{% url 'shipment_detail' shipment.pk %}" aria-label="Abrir {{ shipment.tracking_code }}">Ver →</a></td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% else %}<div class="empty-state"><span class="empty-icon" aria-hidden="true">▣</span><h3>No hay envíos para mostrar</h3><p>{% if user.can_dispatch %}Registra un envío o ajusta los filtros de búsqueda.{% else %}Los envíos aparecerán aquí cuando coordinación te los asigne.{% endif %}</p>{% if user.can_dispatch %}<a href="{% url 'shipment_create' %}" class="button">Registrar envío</a>{% endif %}</div>{% endif %}

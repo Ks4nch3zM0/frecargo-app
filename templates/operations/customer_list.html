@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">DIRECTORIO</div><h1>Clientes</h1><p>Empresas y personas que confían sus envíos a FRECARGO.</p></div><a href="{% url 'customer_create' %}" class="button">+ Registrar cliente</a></div>
+<section class="panel"><form method="get" class="filters"><div><label for="q">Buscar cliente</label><input id="q" name="q" value="{{ query }}" maxlength="200" placeholder="Nombre o teléfono"></div><button type="submit" class="button secondary">Buscar</button></form>{% if page %}<div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Teléfono</th><th>Recogida</th><th>Estado</th><th>Acción</th></tr></thead><tbody>{% for customer in page %}<tr><td><strong>{{ customer.name }}</strong><small>{{ customer.email }}</small></td><td>{{ customer.phone }}</td><td>{{ customer.pickup_address }}</td><td>{% if customer.active %}Activo{% else %}Inactivo{% endif %}</td><td><a href="{% url 'customer_edit' customer.pk %}" class="inline-link">Editar</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><h3>No hay clientes para mostrar</h3><p>Registra el primer cliente o ajusta la búsqueda.</p></div>{% endif %}{% include 'partials/pagination.html' %}</section>
+{% endblock %}

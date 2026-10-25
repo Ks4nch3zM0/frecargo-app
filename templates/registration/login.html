@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ingresar{% endblock %}
+{% block public_content %}
+<div class="login-layout">
+    <section class="login-brand">
+        <a class="brand" href="{% url 'login' %}">
+            <img src="{% static 'img/imgLOGOFrecargoBlancoAzulH.png' %}"
+                alt="FRECARGO"
+                class="brand-logo-init">
+            <small style="display: block; margin-left: 10%;">TU ENVÍO, NUESTRA PRIORIDAD</small>
+        </a>
+        <div>
+            <div class="eyebrow light">CONTROL DE OPERACIONES</div>
+            <h1>Cada entrega<br>cuenta.</h1>
+            <p>Tu equipo, tus envíos y cada movimiento.<br>Todo en un mismo lugar.</p>
+        </div>
+        <span>Bogotá y alrededores</span>
+    </section>
+    <section class="login-form-section">
+        <div class="login-card">
+            <div class="eyebrow">BIENVENIDO A FRECARGO</div>
+            <h2>Ingresa a tu cuenta</h2>
+            <p>Usa el usuario asignado por administración.</p>{% if demo_mode %}
+            <div class="demo-banner">DEMOSTRACIÓN LOCAL · Usa las credenciales que generó el comando seed_demo.</div>{% endif %}
+            <form method="post">{% csrf_token %}{% include 'partials/form_fields.html' %}
+                <input type="hidden" name="next" value="{{ next }}">
+                <button type="submit" class="button full">Ingresar →</button>
+            </form>
+            <small class="login-help">Si necesitas una cuenta o restablecer tu contraseña, contacta al administrador de FRECARGO.</small>
+        </div>
+    </section>
+</div>
+{% endblock %}

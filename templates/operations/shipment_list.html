@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Envíos{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">SEGUIMIENTO</div><h1>{% if user.can_dispatch %}Envíos{% else %}Mis envíos{% endif %}</h1><p>{{ page.paginator.count }} resultado{{ page.paginator.count|pluralize:"s" }} en esta consulta.</p></div>{% if user.can_dispatch %}<a href="{% url 'shipment_create' %}" class="button">+ Registrar envío</a>{% endif %}</div>
+<section class="panel"><form method="get" class="filters"><div><label for="q">Buscar</label><input id="q" name="q" value="{{ query }}" placeholder="Guía, destinatario, cliente o dirección" maxlength="200"></div><div><label for="status">Estado</label><select id="status" name="status"><option value="">Todos los estados</option>{% for value,label in statuses %}<option value="{{ value }}" {% if value == status %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div><button class="button secondary" type="submit">Filtrar</button><a class="text-button" href="{% url 'shipment_list' %}">Limpiar</a></form>{% include 'partials/shipment_table.html' %}{% include 'partials/pagination.html' %}</section>
+{% endblock %}

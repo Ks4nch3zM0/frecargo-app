@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Resumen{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">OPERACIÓN FRECARGO</div><h1>Todo en movimiento.</h1><p>{% if user.can_dispatch %}Una vista clara de tus envíos y tu equipo.{% else %}Consulta tus asignaciones y actualiza cada entrega.{% endif %}</p></div>{% if user.can_dispatch %}<a href="{% url 'shipment_create' %}" class="button">+ Registrar envío</a>{% endif %}</div>
+<section class="hero-strip"><div><span class="hero-kicker">TU ENVÍO, NUESTRA PRIORIDAD</span><h2>{% if user.can_dispatch %}Cada paquete, bajo control.{% else %}Tu próxima entrega empieza aquí.{% endif %}</h2><p>Del registro a la entrega, el equipo trabaja con la misma información.</p></div><div class="hero-mark" aria-hidden="true"><svg viewBox="0 0 180 120" fill="none"><path d="M90 14 145 43v53l-55 29-55-29V43L90 14Z" stroke="currentColor" stroke-width="2"/><path d="m35 43 55 28 55-28M90 71v54M63 28l55 29v22" stroke="currentColor" stroke-width="2"/><path d="M7 63h30M0 81h29M13 99h22" stroke="currentColor" stroke-width="3"/></svg></div></section>
+<div class="section-caption"><h2>Estado de la operación</h2><span>{% if user.can_dispatch %}Todos los envíos{% else %}Tus envíos asignados{% endif %} · acumulado</span></div>
+<section class="stats-grid" aria-label="Resumen de estados">
+  <a class="stat-card" href="{% url 'shipment_list' %}"><span>Total registrados</span><strong>{{ counts.total }}</strong><small>Historial completo <span>↗</span></small></a>
+  <div class="stat-card"><span>Pendientes de salida</span><strong>{{ counts.pending }}</strong><small>Recibidos y asignados</small></div>
+  <a class="stat-card blue-card" href="{% url 'shipment_list' %}?status=in_transit"><span>En ruta</span><strong>{{ counts.in_transit }}</strong><small>Camino a su destino <span>↗</span></small></a>
+  <a class="stat-card" href="{% url 'shipment_list' %}?status=delivered"><span>Entregados</span><strong>{{ counts.delivered }}</strong><small>Entregas registradas <span>↗</span></small></a>
+</section>
+{% if counts.incidents %}<a class="incident-notice" href="{% url 'shipment_list' %}?status=incident"><strong>{{ counts.incidents }} envío{{ counts.incidents|pluralize:"s" }} con novedad</strong><span>Revisar y dar seguimiento →</span></a>{% endif %}
+<section class="panel"><div class="panel-heading"><div><h2>Últimos envíos registrados</h2><p>Consulta el detalle para ver el historial de movimientos.</p></div><a class="inline-link" href="{% url 'shipment_list' %}">Ver todos →</a></div>{% include 'partials/shipment_table.html' %}</section>
+{% endblock %}
